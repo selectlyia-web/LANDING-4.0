@@ -17,7 +17,7 @@ const POSTGRES_UNIQUE_VIOLATION = '23505';
 export async function joinWaitlist(rawEmail: string): Promise<Result<WaitlistOutcome>> {
   const email = rawEmail.trim().toLowerCase();
 
-  try {try {
+  try {
   const supabase = getSupabaseClient();
 
   const { error } = await supabase
@@ -34,23 +34,11 @@ export async function joinWaitlist(rawEmail: string): Promise<Result<WaitlistOut
 
   return err(new Error(error.message));
 } catch (cause) {
-  console.error("ERRO COMPLETO:", cause);
+  console.error(cause);
 
   return err(
     cause instanceof Error
       ? cause
       : new Error("Falha ao entrar na lista.")
   );
-}
-
-    if (error === null) {
-      return ok('joined');
-    }
-    if (error.code === POSTGRES_UNIQUE_VIOLATION) {
-      return ok('already_on_list');
-    }
-    return err(new Error(error.message));
-  } catch (cause) {
-    return err(cause instanceof Error ? cause : new Error('Falha ao entrar na lista.'));
-  }
 }
